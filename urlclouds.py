@@ -19,27 +19,35 @@ params = {
 }
 
 response = requests.get(url, params=params)
-
 data = response.json()
+weather_list = data['weather']
+description = weather_list[0]['description']
+
+print (description)
+# print (weather_list)
 
 temp = data['main']['temp'] - 272.15
 clouds= data['clouds']['all']
-# coordlon = data['coord']['lon']
-# coordlat = data['coord'] ['lat']
+humidity = data['main']['humidity']
 
 
 
-# print('The temp in {} is {}''.format(data['name'],temp))
+# # print('The temp in {} is {}''.format(data['name'],temp))
 print ('the temperature in ' + data ['name'] + ' is ' + str(temp))
 print ( 'cloud coverage is ' + str(clouds))
-# print( str(coordlon))
-# print( str(coordlat))
-
+print ( 'humidity is ' + str(humidity))
+# # print '\n'.join(weather)
+# # print( str(coordlon))
+# # print( str(coordlat))
+#
 ArduinoSerial = serial.Serial('/dev/cu.usbmodem1411',9600)
 
 time.sleep(2)
 
-if clouds > 10: #if the value is 1
+#
+
+ArduinoSerial.write(b'str(humidity)')
+if clouds > 30:
     ArduinoSerial.write(b'0') #send 1
     print ("blue")
     time.sleep(1)
@@ -51,8 +59,8 @@ elif clouds < 10: #if the value is 0
     time.sleep(1)
     print ('sunny')
 
-#  if clouds > 50:
-#     print ('cloudy')
-#
-# else:
-#      print ('sunny')
+if clouds > 50:
+     print ('cloudy')
+
+else:
+     print ('sunny')
